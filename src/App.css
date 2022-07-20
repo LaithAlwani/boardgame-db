@@ -1,0 +1,52 @@
+
+.main{
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 90vh;
+  text-align: center;
+}
+
+nav{
+  background-color: lightgreen;
+  padding:  1rem;
+}
+
+nav .nav-container{
+  display: flex;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+nav .nav-links{
+  margin-left: auto;
+}
+nav a{
+  margin: 0 0.5rem ;
+}
+
+.grid{
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid .img-container{
+  width: 100%;
+}
+
+.grid img{
+  height: 150px;
+}
+.grid h4{
+  margin: 0;
+}
+.grid span{
+  font-size: 0.8rem;
+}
+
+@media only screen and (max-width:768px){
+  .grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
