@@ -13,6 +13,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="games" element={<UserProfile />} />
           <Route path="/plays" element={<Plays />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Layout>
     </Router>
