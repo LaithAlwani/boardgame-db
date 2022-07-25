@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {Toaster} from "react-hot-toast";
 import "./App.css";
 import Layout from "./components/Layout";
 import UserProfile from "./pages/UserProfile";
@@ -9,6 +10,7 @@ function App() {
   return (
     <Router>
       <Layout>
+        <Toaster />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="games" element={<UserProfile />} />
