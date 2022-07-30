@@ -1,10 +1,11 @@
 import {auth} from "../firebase/config"
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import  toast from "react-hot-toast"
+import toast from "react-hot-toast"
+import {GoSignIn} from "react-icons/go"
 
 
 
-export default function Signin() {
+export default function Signin({size}) {
     const handleSignIn = async()=>{
         const provider = new GoogleAuthProvider()
         toast.promise(signInWithPopup(auth, provider),
@@ -30,6 +31,9 @@ export default function Signin() {
         //   })
     }
   return (
-    <a onClick={handleSignIn}>Sign in</a>
+    <div onClick={handleSignIn} className="nav-icon" >
+      <GoSignIn size={size} color="white" />
+      <span>Sign in</span>
+    </div>
   )
 }

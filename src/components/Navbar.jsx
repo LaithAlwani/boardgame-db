@@ -40,6 +40,7 @@ export default function Navbar() {
 }
 
 const NavLinks = ({ user }) => {
+  const size = 30;
   const navigate = useNavigate();
   const handleSignOut = () => {
     // signOut(auth).then(toast.success("Successfully Signed Out")
@@ -58,39 +59,41 @@ const NavLinks = ({ user }) => {
   };
   return (
     <>
+      {user && (
+        <NavLink to="/profile" className="avatar">
+          <div className="nav-icon">
+            <img src={user.photoURL} alt={user.displayName} />
+            <span>{user.displayName.split(" ")[0]}</span>
+          </div>
+        </NavLink>
+      )}
       <NavLink to="/games">
         <div className="nav-icon">
-          <GiMeeple size={40} />
+          <GiMeeple size={size} />
           <span>Games</span>
         </div>
       </NavLink>
       <NavLink to="/plays">
         <div className="nav-icon">
-          <GiNotebook size={40} />
+          <GiNotebook size={size} />
           <span>Plays</span>
         </div>
       </NavLink>
-      {!user && <Signin />}
-      {user && (
-        <>
-          <NavLink to="/profile" className="avatar">
-            <div className="nav-icon">
-              <img src={user.photoURL} alt={user.displayName} />
-              <span>Profile</span>
-            </div>
-          </NavLink>
-          <div className="nav-icon">
-            <GoSignOut size={40} color={"white"} />
-            <span onClick={handleSignOut}>Sign Out</span>
-          </div>
-        </>
-      )}
       <NavLink to="/settings">
         <div className="nav-icon">
-          <MdSettings size={40} />
+          <MdSettings size={size} />
           <span>Settings</span>
         </div>
       </NavLink>
+
+      {user ? (
+        <div className="nav-icon" onClick={handleSignOut}>
+          <GoSignOut size={size} color={"white"} />
+          <span>Sign Out</span>
+        </div>
+      ) : (
+        <Signin size={size} />
+      )}
     </>
   );
 };
