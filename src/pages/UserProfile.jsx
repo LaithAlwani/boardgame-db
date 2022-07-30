@@ -23,23 +23,23 @@ export default function UserProfile() {
 
   return (
     <div className="App">
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
       <button onClick={handleClick}>import BGG</button>
       <p>Total Games: {games.length}</p>
       <div className="grid">
         {games.map((game) => (
-          <div key={game.attributes.objectid}>
+          <div key={game.attributes.objectid} className="game-">
             <div className="img-container">
               <img src={game.children[2].value} alt="" />
             </div>
-           
-            {game.children[4].attributes.own === "1" && (
-              <span className="tag">own</span>
-            )}
+            <h3>
+              {" "}
+              {game.children[0].value.search("&#039;")
+                ? game.children[0].value.replace("&#039;", "'")
+                : game.children[0].value}
+            </h3>
+            <p>Plays: {game.children[5].value}</p>
+            {game.children[4].attributes.own === "1" && <span className="tag">own</span>}
             {game.children[4].attributes.prevowned === "1" && (
               <span className="tag">prev-owned</span>
             )}
@@ -48,22 +48,13 @@ export default function UserProfile() {
             )}
             {game.children[4].attributes.want === "1" ||
               game.children[4].attributes.wanttobuy === "1" ||
-              game.children[4].attributes.wishlist === "1" && (
+              (game.children[4].attributes.wishlist === "1" && (
                 <span className="tag">whishlist</span>
-              )}
+              ))}
             {game.children[4].attributes.preordered === "1" && (
               <span className="tag">preorder</span>
             )}
-            {game.children[4].attributes.fortrade === "1" && (
-              <span className="tag">for trade</span>
-            )}
-            <h4>
-              {" "}
-              {game.children[0].value.search("&#039;")
-                ? game.children[0].value.replace("&#039;", "'")
-                : game.children[0].value}
-            </h4>
-            <span>Plays: {game.children[5].value}</span>
+            {game.children[4].attributes.fortrade === "1" && <span className="tag">for trade</span>}
           </div>
         ))}
       </div>

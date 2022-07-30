@@ -4,6 +4,10 @@ import Signin from "./Signin";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { GiMeeple } from "react-icons/gi";
+import { GiNotebook } from "react-icons/gi";
+import { GoSignOut } from "react-icons/go";
+import { MdSettings } from "react-icons/md";
 
 export default function Navbar() {
   const [user, setUser] = useState(auth.currentUser);
@@ -24,21 +28,13 @@ export default function Navbar() {
   return (
     <nav>
       <div className="nav-container">
-        <div className="logo">
+        <span className="logo">
           <NavLink to="/">BGDB</NavLink>
-        </div>
+        </span>
         <div className="nav-links">
           <NavLinks user={user} />
         </div>
-        <span id="burger-icon-container" onClick={() => setIsOpen(!isOpen)}>
-          <span className={isOpen ? "burger-icon open" : "burger-icon"}></span>
-        </span>
       </div>
-      
-        <div className={isOpen? "nav-mobile open":"nav-mobile"} onClick={() => setIsOpen(!isOpen)}>
-          <NavLinks user={user} />
-        </div>
-     
     </nav>
   );
 }
@@ -62,17 +58,39 @@ const NavLinks = ({ user }) => {
   };
   return (
     <>
-      <NavLink to="/games">Games</NavLink>
-      <NavLink to="/plays">Plays</NavLink>
+      <NavLink to="/games">
+        <div className="nav-icon">
+          <GiMeeple size={40} />
+          <span>Games</span>
+        </div>
+      </NavLink>
+      <NavLink to="/plays">
+        <div className="nav-icon">
+          <GiNotebook size={40} />
+          <span>Plays</span>
+        </div>
+      </NavLink>
       {!user && <Signin />}
       {user && (
         <>
           <NavLink to="/profile" className="avatar">
-            <img src={user.photoURL} alt={user.displayName} />
+            <div className="nav-icon">
+              <img src={user.photoURL} alt={user.displayName} />
+              <span>Profile</span>
+            </div>
           </NavLink>
-          <a onClick={handleSignOut}>Sign Out</a>
+          <div className="nav-icon">
+            <GoSignOut size={40} color={"white"} />
+            <span onClick={handleSignOut}>Sign Out</span>
+          </div>
         </>
       )}
+      <NavLink to="/settings">
+        <div className="nav-icon">
+          <MdSettings size={40} />
+          <span>Settings</span>
+        </div>
+      </NavLink>
     </>
   );
 };
