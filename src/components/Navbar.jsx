@@ -30,15 +30,15 @@ export default function Navbar() {
         <div className="nav-links">
           <NavLinks user={user} />
         </div>
-        <button id="burger-icon-container" onClick={() => setIsOpen(!isOpen)}>
+        <span id="burger-icon-container" onClick={() => setIsOpen(!isOpen)}>
           <span className={isOpen ? "burger-icon open" : "burger-icon"}></span>
-        </button>
+        </span>
       </div>
-      {isOpen && (
-        <div id="nav-mobile" onClick={() => setIsOpen(!isOpen)}>
+      
+        <div className={isOpen? "nav-mobile open":"nav-mobile"} onClick={() => setIsOpen(!isOpen)}>
           <NavLinks user={user} />
         </div>
-      )}
+     
     </nav>
   );
 }
