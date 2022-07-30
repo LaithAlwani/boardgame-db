@@ -6,6 +6,7 @@ import UserProfile from "./pages/UserProfile";
 import Home from "./pages/Home";
 import Plays from "./pages/Plays";
 import Boardgames from "./pages/Boardgames";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="games" element={<Boardgames />} />
           <Route path="/plays" element={<Plays />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </Layout>
     </Router>
