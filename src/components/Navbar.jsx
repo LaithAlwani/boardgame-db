@@ -28,9 +28,13 @@ export default function Navbar() {
   return (
     <nav>
       <div className="nav-container">
-        <span className="logo">
-          <NavLink to="/">BGDB</NavLink>
-        </span>
+        <NavLink to="/">
+          <div className="nav-icon">
+            <img src="/dice.png" alt="" className="logo" />
+            <span>Boardgame Tools</span>
+          </div>
+        </NavLink>
+
         <div className="nav-links">
           <NavLinks user={user} />
         </div>
