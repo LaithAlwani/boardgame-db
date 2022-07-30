@@ -148,6 +148,9 @@ nav a:hover {
 .grid span {
   font-size: 0.8rem;
 }
+.tag{
+  margin: 0.5rem;
+}
 
 @media only screen and (max-width: 768px) {
   .grid {
@@ -155,9 +158,6 @@ nav a:hover {
   }
 }
 @media only screen and (max-width: 550px) {
-  nav .nav-container{
-    
-  }
   nav .nav-links {
     display: none;
   }
