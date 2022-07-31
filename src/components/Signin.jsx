@@ -38,18 +38,24 @@ const SigninFrom = () => {
     signInWithPopup(auth, provider)
       .then((results) => {
         const user = results.user;
-        getDoc(doc(db, "users", user.uid)).then((userDoc) => {
-          if (userDoc.data()) {
-            toast((t) => (
-              <div className="signin-toast">
-                <img src={userDoc.data().avatar} alt={userDoc.data().username} className="avatar" />
-                <span>Welcome {userDoc.data().username}</span>
-              </div>
-            ));
-          }
-        }).catch(err => {
-          toast.error(err.message)
-        });
+        getDoc(doc(db, "users", user.uid))
+          .then((userDoc) => {
+            if (userDoc.data()) {
+              toast((t) => (
+                <div className="signin-toast">
+                  <img
+                    src={userDoc.data().avatar}
+                    alt={userDoc.data().username}
+                    className="avatar"
+                  />
+                  <span>Welcome {userDoc.data().username}</span>
+                </div>
+              ));
+            }
+          })
+          .catch((err) => {
+            toast.error(err.message);
+          });
       })
       .catch((error) => {
         // Handle Errors here.
@@ -64,18 +70,14 @@ const SigninFrom = () => {
   };
 
   return (
-    <div className="social-logins">
-      <div className="icons-grid">
-        <span onClick={loginWithGoogle}>
-          <FcGoogle size={30} />
-        </span>
-        <span onClick={loginWithGoogle}>
-          <FaTwitter size={30} color="#1DA1F2" />
-        </span>
-        <span onClick={loginWithGoogle}>
-          <FaApple size={30} />
-        </span>
+    <div className="signin">
+      <h3>Login with social media</h3>
+      <div className="social-sigin">
+        <FaTwitter size={50} color="gray" /> {/*orginal color #1DA1F2*/ }
+        <FcGoogle size={50} onClick={loginWithGoogle} />
+        <FaApple size={50} color="gray" />
       </div>
+      <span>only google login works</span>
     </div>
   );
 };

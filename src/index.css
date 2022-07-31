@@ -25,9 +25,16 @@ a {
 
 button{
   padding: 0.5rem 1rem;
-  color: green;
-  border: 2px green solid;
+  color: #669d31;
+  border: 2px #669d31 solid;
   border-radius: 0.5rem;
   background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover, button:focus, button:active{
+  background: #669d31;
+  color: #ffff;
 }
 

@@ -1,6 +1,6 @@
 .loader {
-  border: 10px solid rgb(196, 208, 235); 
-  border-top: 10px solid #3e72ea; 
+  border: 10px solid rgb(196, 208, 235);
+  border-top: 10px solid #3e72ea;
   border-radius: 50%;
   width: 35px;
   height: 35px;
@@ -8,15 +8,18 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-
 
 .main {
   max-width: 960px;
   margin: 0 auto;
-  padding: 1rem 1rem 5rem ;
+  padding: 1rem 1rem 5rem;
   min-height: 85vh;
   text-align: center;
 }
@@ -33,33 +36,31 @@ nav .nav-container {
   max-width: 1080px;
   margin: 0 auto;
 }
-.nav-logo{
+.nav-logo {
   display: flex;
   align-items: flex-end;
   justify-content: space-evenly;
   width: 200px;
 }
-nav .logo{
+nav .logo {
   width: 40px;
   height: 40px;
 }
-
 
 .nav-links {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 300px;
-  transition: all 0.5s ease-in-out; 
+  transition: all 0.5s ease-in-out;
 }
 
-
-.nav-icon{
+.nav-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.nav-icon span{
+.nav-icon span {
   font-size: 0.8rem;
   color: #f3f3f3;
 }
@@ -86,30 +87,44 @@ nav a:hover {
 }
 
 /*nav ends*/
+.signin{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
 
-.signin-toast{
+.social-sigin {
+  width: 100%;
+  margin: 1rem auto;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
-.signin-toast span{
+.signin-toast {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.signin-toast span {
   margin-left: 0.5rem;
 }
 
-.usernameForm{
+.usernameForm {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.usernameForm input{
+.usernameForm input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid #333 ;
+  border-bottom: 1px solid #333;
   padding: 0.5rem;
   margin: 0.5rem;
   outline: none;
 }
-.usernameForm img{
+.usernameForm img {
   border-radius: 50%;
 }
 
@@ -122,7 +137,7 @@ nav a:hover {
 }
 
 .scroll-list .img-container {
-  height: 180px;
+  height: 150px;
   padding: 0;
 }
 .scroll-list .img-container img {
@@ -132,25 +147,33 @@ nav a:hover {
 
 /* scrollable list  Ends*/
 
+.bgg-username-input{
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  outline: none;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   row-gap: 1.5rem;
 }
 
-.list{
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.grid .game-container{
+.grid .game-container {
   max-width: 300px;
   word-wrap: break-word;
   margin: 0 auto;
 }
-.list .game-container{
+.list .game-container {
   width: 100%;
   display: flex;
   /* justify-content: flex-start; */
@@ -162,47 +185,63 @@ align-items: center;
   width: 100px;
   margin: 0 auto;
 }
-.list .img-container{
+.list .img-container {
   width: 50px;
   height: 50px;
   margin-right: 1rem;
 }
 
-.grid img, .list img {
+.grid img,
+.list img {
   max-width: 100%;
   height: 100px;
 }
-.list img{
+.list img {
   height: 100%;
 }
-.grid h3, .list h3 {
+.grid h3,
+.list h3 {
   margin: 0.5rem;
   font-size: 0.8rem;
 }
-.grid span, .list span {
+.grid span,
+.list span {
   font-size: 0.8rem;
 }
-.filters{
+.filters {
   margin: 1rem;
 }
-.tag{
+.tag {
   display: inline-block;
   margin: 0 0.25rem;
   padding: 0.25rem;
-  color:white;
+  color: white;
   border-radius: 0.5rem;
+  font-size:0.8rem ;
 }
 
-.green{background-color: rgb(63, 150, 63)}
-.brown{background-color: brown;}
-.pink{background-color: rgb(248, 167, 181)}
-.red{background-color: red}
-.blue{background-color: rgb(97, 203, 238)}
-.yellow{
+.green {
+  background-color: rgb(63, 150, 63);
+}
+.brown {
+  background-color: brown;
+}
+.pink {
+  background-color: rgb(248, 167, 181);
+}
+.red {
+  background-color: red;
+}
+.blue {
+  background-color: rgb(97, 203, 238);
+}
+.yellow {
   background-color: yellow;
   color: #333;
 }
-.checked{box-shadow: 2px 2px 5px black}
+.checked {
+  box-shadow: 2px 2px 5px black;
+}
 
 @media only screen and (max-width: 768px) {
   .grid {
@@ -218,10 +257,9 @@ align-items: center;
     width: 100%;
     position: fixed;
     bottom: 0;
-    left: 0;  
+    left: 0;
     padding: 0.5rem 0;
     background-color: #669d31;
-    
   }
   #burger-icon-container {
     display: flex;
@@ -230,7 +268,7 @@ align-items: center;
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  footer{
+  footer {
     display: none;
   }
 }
