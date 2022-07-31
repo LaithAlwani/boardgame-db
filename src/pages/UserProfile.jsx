@@ -145,7 +145,7 @@ export default function UserProfile() {
         </div>
       )}
       <p> ({gamesByFilter.length}) Games</p>
-      <ScrollableList list={gamesByFilter} />
+      {games.length>0 && <ScrollableList list={gamesByFilter} />}
       {games.length > 0 && (!gridView ? 
         
           <span onClick={() => setGridView(!gridView)}>

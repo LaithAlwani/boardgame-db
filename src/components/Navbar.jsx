@@ -1,29 +1,17 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { auth } from "../firebase/config";
+import { auth } from "../lib/firebase";
 import Signin from "./Signin";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { GiMeeple } from "react-icons/gi";
 import { GiNotebook } from "react-icons/gi";
 import { GoSignOut } from "react-icons/go";
+import { GoSignIn } from "react-icons/go";
 import { MdSettings } from "react-icons/md";
+import { UserContext } from "../lib/context";
 
 export default function Navbar() {
-  const [user, setUser] = useState(auth.currentUser);
-
-  useEffect(() => {
-    let subscirbe;
-    subscirbe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-    });
-    return subscirbe;
-  }, [user]);
-
   return (
     <nav>
       <div className="nav-container">
@@ -35,14 +23,15 @@ export default function Navbar() {
         </NavLink>
 
         <div className="nav-links">
-          <NavLinks user={user} />
+          <NavLinks />
         </div>
       </div>
     </nav>
   );
 }
 
-const NavLinks = ({ user }) => {
+const NavLinks = () => {
+  const { user, username, userAvatar, loading } = useContext(UserContext);
   const size = 25;
   const navigate = useNavigate();
   const handleSignOut = () => {
@@ -62,13 +51,19 @@ const NavLinks = ({ user }) => {
   };
   return (
     <>
-      {user && (
-        <NavLink to="/profile" >
-          <div className="nav-icon">
-            <img src={user.photoURL} alt={user.displayName} className="avatar"/>
-            <span>{user.displayName.split(" ")[0]}</span>
-          </div>
-        </NavLink>
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
+        user &&
+        username &&
+        userAvatar && (
+          <NavLink to="/profile">
+            <div className="nav-icon">
+              <img src={userAvatar} alt={username} className="avatar" />
+              <span>{username}</span>
+            </div>
+          </NavLink>
+        )
       )}
       <NavLink to="/games">
         <div className="nav-icon">
@@ -95,7 +90,10 @@ const NavLinks = ({ user }) => {
           <span>Sign Out</span>
         </div>
       ) : (
-        <Signin size={size} />
+        <NavLink to="/signin" className="nav-icon">
+          <GoSignIn size={size} />
+          <span>Sign in</span>
+        </NavLink>
       )}
     </>
   );
