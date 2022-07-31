@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import Signin from "./Signin";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -11,7 +11,6 @@ import { MdSettings } from "react-icons/md";
 
 export default function Navbar() {
   const [user, setUser] = useState(auth.currentUser);
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     let subscirbe;
@@ -29,7 +28,7 @@ export default function Navbar() {
     <nav>
       <div className="nav-container">
         <NavLink to="/">
-          <div className="nav-icon">
+          <div className="nav-logo ">
             <img src="/dice.png" alt="" className="logo" />
             <span>Boardgame Tools</span>
           </div>
@@ -44,7 +43,7 @@ export default function Navbar() {
 }
 
 const NavLinks = ({ user }) => {
-  const size = 30;
+  const size = 25;
   const navigate = useNavigate();
   const handleSignOut = () => {
     // signOut(auth).then(toast.success("Successfully Signed Out")
@@ -64,9 +63,9 @@ const NavLinks = ({ user }) => {
   return (
     <>
       {user && (
-        <NavLink to="/profile" className="avatar">
+        <NavLink to="/profile" >
           <div className="nav-icon">
-            <img src={user.photoURL} alt={user.displayName} />
+            <img src={user.photoURL} alt={user.displayName} className="avatar"/>
             <span>{user.displayName.split(" ")[0]}</span>
           </div>
         </NavLink>
