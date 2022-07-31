@@ -1,0 +1,19 @@
+.scroll-list{
+ padding: 0;
+ display: flex;
+ overflow-x: scroll;
+ margin: 1rem 0;
+}
+
+.scroll-list::-webkit-scrollbar {
+  display: none;
+}
+.img-container{
+height: 150px;
+
+padding: 0 ;
+}
+.img-container img{
+  margin-left: 0.5rem;
+  height: 100%;
+}

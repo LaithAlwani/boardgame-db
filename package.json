@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
-    "preview": "vite preview"
+    "prev": "vite preview --open",
+    "fbhost":"firebase deploy --only hosting"
   },
   "dependencies": {
     "firebase": "^9.9.0",

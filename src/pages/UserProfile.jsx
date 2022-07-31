@@ -3,6 +3,7 @@ import XMLParser from "react-xml-parser";
 import { MdOutlineViewList } from "react-icons/md";
 import { MdOutlineGridView } from "react-icons/md";
 import { toast } from "react-hot-toast"
+import ScrollableList from "../components/ScrollableList";
 
 export default function UserProfile() {
   const [username, setUsername] = useState("");
@@ -72,7 +73,7 @@ export default function UserProfile() {
   };
 
   return (
-    <div className="App">
+    <div >
       <input
         type="text"
         value={username}
@@ -144,6 +145,7 @@ export default function UserProfile() {
         </div>
       )}
       <p> ({gamesByFilter.length}) Games</p>
+      <ScrollableList list={gamesByFilter} />
       {games.length > 0 && (!gridView ? 
         
           <span onClick={() => setGridView(!gridView)}>
