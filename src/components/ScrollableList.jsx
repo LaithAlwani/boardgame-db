@@ -3,13 +3,11 @@ export default function ScrollableList({ list }) {
     <div>
       {list && (
         <div className="scroll-list">
-          {list.map((game) => (
-            <div className="img-container" key={game.attributes.objectid}>
+          {list.map((game, i) => (
+            <div className="img-container" key={i}>
               <img
                 src={
-                  game.children[1].name === "originalname"
-                    ? game.children[4].value
-                    : game.children[3].value
+                   game.image
                 }
                 alt="game name"
               />

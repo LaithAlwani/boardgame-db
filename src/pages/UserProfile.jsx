@@ -25,14 +25,31 @@ export default function UserProfile() {
         .then((data) => {
           setGames([]);
           var xml = new XMLParser().parseFromString(data);
-          // console.log(xml.children[9]);
-          setGames(xml.children);
-          setGamesByFilter(xml.children);
+          const tempGames = []
+          // console.log(xml.children[5])
+          xml.children.forEach((game, i) => {
+            const tempgame = {}
+            game.children.forEach(child => {
+              // console.log(child)
+              if (child.name === "name") tempgame.title = child.value
+              if (child.name === "originalname") tempgame.title = child.value
+              if (child.name === "numplays") tempgame.numPlays = parseInt(child.value) 
+              if (child.name === "image") tempgame.image = child.value
+              if (child.name === "thumbnail") tempgame.thumbnail = child.value
+              if (child.name === "status") tempgame.status = child.attributes
+              if (child.name === "comment") tempgame.comment = child.value
+              // tempGames.push(tempgame)
+            })
+            tempGames.push(tempgame)
+          })
+          console.log("tempgames=>",tempGames)
+          setGames(tempGames);
+          setGamesByFilter(tempGames);
           setUsername("");
           setLoading(false);
         })
         .catch((err) => {
-          toast.error(err.message);
+          console.log(err.message);
           setLoading(false);
         });
     } else {
@@ -48,23 +65,24 @@ export default function UserProfile() {
 
   const filterByTag = (value) => {
     setTag(value);
+    
     if (value === "own") {
-      setGamesByFilter(games.filter((game) => game.children[4].attributes.own !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.own !== "0"));
     } else if (value === "wanttoplay") {
-      setGamesByFilter(games.filter((game) => game.children[4].attributes.wanttoplay !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.wanttoplay !== "0"));
     } else if (value === "prevowned") {
-      setGamesByFilter(games.filter((game) => game.children[4].attributes.prevowned !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.prevowned !== "0"));
     } else if (value === "fortrade") {
-      setGamesByFilter(games.filter((game) => game.children[4].attributes.fortrade !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.fortrade !== "0"));
     } else if (value === "preorder") {
-      setGamesByFilter(games.filter((game) => game.children[4].attributes.preordered !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.preordered !== "0"));
     } else if (value === "wishlist") {
       setGamesByFilter(
         games.filter(
           (game) =>
-            game.children[4].attributes.want !== "0" ||
-            game.children[4].attributes.wanttobuy !== "0" ||
-            game.children[4].attributes.wishlist !== "0"
+            game.status.want !== "0" ||
+            game.status.wanttobuy !== "0" ||
+            game.status.wishlist !== "0"
         )
       );
     } else {
@@ -132,48 +150,23 @@ export default function UserProfile() {
           </span>
         ))}
       <div className={gridView ? "grid" : "list"}>
-        {gamesByFilter.map((game) => (
-          <div key={game.attributes.objectid} className="game-container">
+        {gamesByFilter.map((game, i) => (
+         <div key={i} className="game-container">
             <div className="img-container">
               <img
                 src={
-                  game.children[1].name === "originalname"
-                    ? game.children[4].value
-                    : game.children[3].value
+                  game.thumbnail
                 }
                 alt=""
               />
             </div>
 
-            <h3>{getDecodedString(game.children[0].value)}</h3>
+            <h3>{getDecodedString(game.title)}</h3>
             <p>
-              {game.children[1].name === "originalname"
-                ? game.children[2].value
-                : game.children[1].value}
+              {game.yearpublished}
             </p>
-            {/* <p>Plays:{game.children[5].value}</p> */}
-            {/* <div className="tags">
-              {game.children[4].attributes.own === "1" && (
-                <span className="tag green">own</span>
-              )}
-              {game.children[4].attributes.prevowned === "1" && (
-                <span className="tag yellow">prev-owned</span>
-              )}
-              {game.children[4].attributes.wanttoplay === "1" && (
-                <span className="tag blue">want to play</span>
-              )}
-              {(game.children[4].attributes.want === "1" ||
-                game.children[4].attributes.wanttobuy === "1" ||
-                game.children[4].attributes.wishlist === "1") && (
-                <span className="tag pink">whishlist</span>
-              )}
-              {game.children[4].attributes.preordered === "1" && (
-                <span className="tag brown">preorder</span>
-              )}
-              {game.children[4].attributes.fortrade === "1" && (
-                <span className="tag red">for trade</span>
-              )}
-            </div> */}
+            <p>Plays:{game.numPlays}</p>
+            {game.comment && <p>comment:{getDecodedString(game.comment)}</p>}
           </div>
         ))}
       </div>

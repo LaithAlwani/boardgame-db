@@ -266,7 +266,7 @@ nav a:hover {
     margin-left: auto;
   }
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
   footer {
     display: none;
