@@ -1,5 +1,6 @@
 import { useState } from "react";
-import XMLParser from "react-xml-parser";
+// import XMLParser from "react-xml-parser";
+import { XMLParser } from "fast-xml-parser";
 import { MdOutlineViewList } from "react-icons/md";
 import { MdOutlineGridView } from "react-icons/md";
 import { toast } from "react-hot-toast";
@@ -13,7 +14,11 @@ export default function UserProfile() {
   const [gridView, setGridView] = useState(true);
   const [loading, setLoading] = useState(false);
   const collectionURL = `collection?username=${username}`;
-  const thingURL = `thing?type=boardgame`;
+  const thingURL = `thing?id=`;
+
+  const options = {
+    ignoreAttributes: false,
+  };
 
   const handleClick = () => {
     if (username) {
@@ -23,26 +28,37 @@ export default function UserProfile() {
       })
         .then((res) => res.text())
         .then((data) => {
+          const parser = new XMLParser(options);
+          const { items } = parser.parse(data);
           setGames([]);
-          var xml = new XMLParser().parseFromString(data);
-          const tempGames = []
-          // console.log(xml.children[5])
-          xml.children.forEach((game, i) => {
-            const tempgame = {}
-            game.children.forEach(child => {
-              // console.log(child)
-              if (child.name === "name") tempgame.title = child.value
-              if (child.name === "originalname") tempgame.title = child.value
-              if (child.name === "numplays") tempgame.numPlays = parseInt(child.value) 
-              if (child.name === "image") tempgame.image = child.value
-              if (child.name === "thumbnail") tempgame.thumbnail = child.value
-              if (child.name === "status") tempgame.status = child.attributes
-              if (child.name === "comment") tempgame.comment = child.value
-              // tempGames.push(tempgame)
-            })
-            tempGames.push(tempgame)
-          })
-          console.log("tempgames=>",tempGames)
+          const tempGames = [];
+          items.item.forEach((game) => {
+            const tempgame = {};
+            tempgame.bggId = game["@_objectid"];
+            game.originalname
+              ? (tempgame.title = game.originalname.toString())
+              : (tempgame.title = game.name["#text"].toString());
+            tempgame.numPlays = game.numplays;
+            tempgame.image = game.image;
+            tempgame.thumbnail = game.thumbnail;
+
+            tempgame.status = {
+              own: game.status["@_own"] === "1" ? true : false,
+              prevowned: game.status["@_prevowned"] === "1" ? true : false,
+              preordered: game.status["@_preordered"] === "1" ? true : false,
+              wishlist:
+                game.status["@_want"] === "1" ||
+                game.status["@_wanttobuy"] === "1" ||
+                game.status["@_wishlist"] === "1"
+                  ? true
+                  : false,
+              play: game.status["@_wanttoplay"] === "1" ? true : false,
+              trade: game.status["@_fortrade"] === "1" ? true : false,
+            };
+            tempgame.comment = game.comment;
+            tempGames.push(tempgame);
+          });
+          getGameFromBgg(tempGames)
           setGames(tempGames);
           setGamesByFilter(tempGames);
           setUsername("");
@@ -63,28 +79,35 @@ export default function UserProfile() {
     return txt.value;
   };
 
+  const getGameFromBgg = (games) => {
+    
+      fetch(`https://boardgamegeek.com/xmlapi2/thing?id=42&videos=1`, {
+        crossDomain: true,
+      })
+        .then((res) => res.text())
+        .then((data) => {
+          const parser = new XMLParser(options);
+          const { items } = parser.parse(data);
+          console.log(items)
+        });
+    
+  };
+
   const filterByTag = (value) => {
     setTag(value);
-    
+
     if (value === "own") {
-      setGamesByFilter(games.filter((game) => game.status.own !== "0"));
-    } else if (value === "wanttoplay") {
-      setGamesByFilter(games.filter((game) => game.status.wanttoplay !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.own));
+    } else if (value === "play") {
+      setGamesByFilter(games.filter((game) => game.status.play));
     } else if (value === "prevowned") {
-      setGamesByFilter(games.filter((game) => game.status.prevowned !== "0"));
-    } else if (value === "fortrade") {
-      setGamesByFilter(games.filter((game) => game.status.fortrade !== "0"));
-    } else if (value === "preorder") {
-      setGamesByFilter(games.filter((game) => game.status.preordered !== "0"));
+      setGamesByFilter(games.filter((game) => game.status.prevowned));
+    } else if (value === "trade") {
+      setGamesByFilter(games.filter((game) => game.status.trade));
+    } else if (value === "preordered") {
+      setGamesByFilter(games.filter((game) => game.status.preordered));
     } else if (value === "wishlist") {
-      setGamesByFilter(
-        games.filter(
-          (game) =>
-            game.status.want !== "0" ||
-            game.status.wanttobuy !== "0" ||
-            game.status.wishlist !== "0"
-        )
-      );
+      setGamesByFilter(games.filter((game) => game.status.wishlist));
     } else {
       setGamesByFilter(games);
     }
@@ -113,10 +136,8 @@ export default function UserProfile() {
             prev
           </span>
           <span
-            className={tag === "wanttoplay" ? "tag blue checked" : "tag blue"}
-            onClick={
-              tag === "wanttoplay" ? () => filterByTag("") : () => filterByTag("wanttoplay")
-            }>
+            className={tag === "play" ? "tag blue checked" : "tag blue"}
+            onClick={tag === "play" ? () => filterByTag("") : () => filterByTag("play")}>
             play
           </span>
           <span
@@ -125,13 +146,13 @@ export default function UserProfile() {
             Wishlist
           </span>
           <span
-            className={tag === "fortrade" ? "tag red checked" : "tag red"}
-            onClick={tag === "fortrade" ? () => filterByTag("") : () => filterByTag("fortrade")}>
+            className={tag === "trade" ? "tag red checked" : "tag red"}
+            onClick={tag === "trade" ? () => filterByTag("") : () => filterByTag("trade")}>
             Trade
           </span>
           <span
-            className={tag === "preorder" ? "tag brown checked" : "tag brown"}
-            onClick={tag === "preorder" ? () => filterByTag("") : () => filterByTag("preorder")}>
+            className={tag === "preordered" ? "tag brown checked" : "tag brown"}
+            onClick={tag === "preordered" ? () => filterByTag("") : () => filterByTag("preordered")}>
             preorder
           </span>
         </div>
@@ -151,20 +172,13 @@ export default function UserProfile() {
         ))}
       <div className={gridView ? "grid" : "list"}>
         {gamesByFilter.map((game, i) => (
-         <div key={i} className="game-container">
+          <div key={i} className="game-container">
             <div className="img-container">
-              <img
-                src={
-                  game.thumbnail
-                }
-                alt=""
-              />
+              <img src={game.thumbnail} alt="" />
             </div>
 
             <h3>{getDecodedString(game.title)}</h3>
-            <p>
-              {game.yearpublished}
-            </p>
+            <p>{game.yearpublished}</p>
             <p>Plays:{game.numPlays}</p>
             {game.comment && <p>comment:{getDecodedString(game.comment)}</p>}
           </div>
