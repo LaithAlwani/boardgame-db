@@ -134,10 +134,11 @@ nav a:hover {
   display: flex;
   overflow-x: scroll;
   margin: 1rem 0;
+  display: none;
 }
 
 .scroll-list .img-container {
-  height: 150px;
+  height: 15em;
   padding: 0;
 }
 .scroll-list .img-container img {
@@ -169,7 +170,7 @@ nav a:hover {
 }
 
 .grid .game-container {
-  max-width: 300px;
+  max-width: 20em;
   word-wrap: break-word;
   margin: 0 auto;
 }
@@ -182,23 +183,20 @@ nav a:hover {
 }
 
 .grid .img-container {
-  width: 100px;
+  width: 10em;
   margin: 0 auto;
 }
 .list .img-container {
-  width: 50px;
-  height: 50px;
+  width: 10em;
   margin-right: 1rem;
 }
 
 .grid img,
 .list img {
   max-width: 100%;
-  height: 100px;
+  height: 10em;
 }
-.list img {
-  height: 100%;
-}
+
 .grid h3,
 .list h3 {
   margin: 0.5rem;
@@ -209,12 +207,12 @@ nav a:hover {
   font-size: 0.8rem;
 }
 .filters {
-  margin: 1rem;
+  margin-block: 1rem;
 }
 .tag {
   display: inline-block;
-  margin: 0 0.25rem;
-  padding: 0.25rem;
+  margin: 0 0.35rem;
+  padding: 0.5rem;
   color: white;
   border-radius: 0.5rem;
   font-size:0.8rem ;
@@ -240,7 +238,7 @@ nav a:hover {
   color: #333;
 }
 .checked {
-  box-shadow: 2px 2px 5px black;
+  box-shadow: 1px 1px 5px rgb(83, 83, 83);
 }
 
 @media only screen and (max-width: 768px) {
@@ -265,8 +263,9 @@ nav a:hover {
     display: flex;
     margin-left: auto;
   }
-  .grid {
-    grid-template-columns: 1fr;
+  .scroll-list{display: flex}
+  .grid, .list, .grid-list-icon {
+    display: none;
   }
   footer {
     display: none;

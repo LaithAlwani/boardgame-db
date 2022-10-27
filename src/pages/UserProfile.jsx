@@ -1,10 +1,10 @@
 import { useState } from "react";
-// import XMLParser from "react-xml-parser";
 import { XMLParser } from "fast-xml-parser";
 import { MdOutlineViewList } from "react-icons/md";
 import { MdOutlineGridView } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import ScrollableList from "../components/ScrollableList";
+import { useEffect } from "react";
 
 export default function UserProfile() {
   const [username, setUsername] = useState("");
@@ -13,15 +13,16 @@ export default function UserProfile() {
   const [gamesByFilter, setGamesByFilter] = useState([]);
   const [gridView, setGridView] = useState(true);
   const [loading, setLoading] = useState(false);
-  const collectionURL = `collection?username=${username}`;
+  const collectionURL = `collection?username=Laitho`;
   const thingURL = `thing?id=`;
+
 
   const options = {
     ignoreAttributes: false,
   };
 
-  const handleClick = () => {
-    if (username) {
+  const importGames = () => {
+    if (!username) {
       setLoading(true);
       fetch(`https://boardgamegeek.com/xmlapi2/${collectionURL}`, {
         crossDomain: true,
@@ -58,7 +59,6 @@ export default function UserProfile() {
             tempgame.comment = game.comment;
             tempGames.push(tempgame);
           });
-          getGameFromBgg(tempGames)
           setGames(tempGames);
           setGamesByFilter(tempGames);
           setUsername("");
@@ -73,24 +73,11 @@ export default function UserProfile() {
     }
   };
 
+
   const getDecodedString = (str) => {
     const txt = document.createElement("textarea");
     txt.innerHTML = str;
     return txt.value;
-  };
-
-  const getGameFromBgg = (games) => {
-    
-      fetch(`https://boardgamegeek.com/xmlapi2/thing?id=42&videos=1`, {
-        crossDomain: true,
-      })
-        .then((res) => res.text())
-        .then((data) => {
-          const parser = new XMLParser(options);
-          const { items } = parser.parse(data);
-          console.log(items)
-        });
-    
   };
 
   const filterByTag = (value) => {
@@ -113,16 +100,21 @@ export default function UserProfile() {
     }
   };
 
+  useEffect(() => {
+    importGames()
+  },[])
+
   return (
     <div>
-      <input
+      {/* <input
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="BGG username"
         className="bgg-username-input"
       />
-      <button onClick={handleClick}>import</button>
+      <button onClick={handleClick}>import</button> */}
+
       {games.length > 0 && (
         <div className="filters">
           <span
@@ -158,15 +150,17 @@ export default function UserProfile() {
         </div>
       )}
       <p> ({gamesByFilter.length}) Games</p>
+      
       {games.length > 0 &&
         (loading ? <div className="loader"></div> : <ScrollableList list={gamesByFilter} />)}
+      
       {games.length > 0 &&
         (!gridView ? (
-          <span onClick={() => setGridView(!gridView)}>
+          <span className="grid-list-icon" onClick={() => setGridView(!gridView)}>
             <MdOutlineGridView size={30} />
           </span>
         ) : (
-          <span onClick={() => setGridView(!gridView)}>
+          <span className="grid-list-icon" onClick={() => setGridView(!gridView)}>
             <MdOutlineViewList size={30} />
           </span>
         ))}
@@ -179,7 +173,7 @@ export default function UserProfile() {
 
             <h3>{getDecodedString(game.title)}</h3>
             <p>{game.yearpublished}</p>
-            <p>Plays:{game.numPlays}</p>
+            {/* <p>Plays:{game.numPlays}</p> */}
             {game.comment && <p>comment:{getDecodedString(game.comment)}</p>}
           </div>
         ))}
